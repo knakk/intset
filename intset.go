@@ -44,7 +44,7 @@ func (set IntSet) Size() int {
 }
 
 // Merge updates set to include values in other. If you do not want to modify
-// an existing set, use the Union function.
+// an existing set, use the Union method.
 func (set IntSet) Merge(other IntSet) {
 	for i := range other {
 		set.Add(i)
