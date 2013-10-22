@@ -43,8 +43,8 @@ func (set IntSet) Size() int {
 	return len(set)
 }
 
-// Merge updates set to include values in other. If you do not want to modify
-// an existing set, use the Union method.
+// Merge updates set to include values from other. If you do not want to modify
+// an existing set, use the Union method instead.
 func (set IntSet) Merge(other IntSet) {
 	for i := range other {
 		set.Add(i)
@@ -86,8 +86,8 @@ func (set IntSet) SubsetOf(other IntSet) bool {
 	return true
 }
 
-// SupersetOf checks if a set is a superset of another set, i.e the does a
-// reverse SubsetOf.
+// SupersetOf checks if a set is a superset of another set, i.e the reverse of
+// SubsetOf.
 func (set IntSet) SupersetOf(other IntSet) bool {
 	return other.SubsetOf(set)
 }
