@@ -130,3 +130,12 @@ func (set IntSet) SymDiff(other IntSet) IntSet {
 	b := other.Diff(set)
 	return a.Union(b)
 }
+
+// Clone returns a new set which is a clone of current set.
+func (set IntSet) Clone() IntSet {
+	s := New()
+	for i := range set {
+		s.Add(i)
+	}
+	return s
+}

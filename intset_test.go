@@ -41,6 +41,7 @@ func TestIntSetOperations(t *testing.T) {
 	s4 := NewFromSlice([]int{8, 9})
 	s5 := s1.Union(s4)
 	s6 := NewFromSlice([]int{1, 2, 3, 8, 9})
+	s7 := s6.Clone()
 
 	tests := []specs.Spec{
 		{s1.Equal(s2), false},
@@ -55,6 +56,7 @@ func TestIntSetOperations(t *testing.T) {
 		{s4.Intersect(s6).Equal(s4), true},
 		{s2.Diff(s1).Equal(NewFromSlice([]int{4})), true},
 		{s1.SymDiff(s4).Equal(s6), true},
+		{s7.Equal(s6), true},
 	}
 	s.ExpectAll(tests)
 
