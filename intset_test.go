@@ -60,4 +60,9 @@ func TestIntSetOperations(t *testing.T) {
 	}
 	s.ExpectAll(tests)
 
+	sl := s7.ToSlice()
+	for _, i := range sl {
+		s.Expect(s7.Contains(i), true)
+	}
+
 }

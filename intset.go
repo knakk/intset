@@ -19,6 +19,15 @@ func NewFromSlice(s []int) IntSet {
 	return set
 }
 
+// ToSlice returns the set as a slice of integers.
+func (set IntSet) ToSlice() []int {
+	var s []int
+	for i := range set {
+		s = append(s, i)
+	}
+	return s
+}
+
 // Add adds an integer to the set. It returns false if allready in the set,
 // otherwise true.
 func (set IntSet) Add(i int) bool {
