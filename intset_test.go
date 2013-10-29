@@ -1,6 +1,7 @@
 package intset
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/knakk/specs"
@@ -65,4 +66,11 @@ func TestIntSetOperations(t *testing.T) {
 		s.Expect(s7.Contains(i), true)
 	}
 
+}
+
+func TestIntSetPrettyPrint(t *testing.T) {
+	s := specs.New(t)
+
+	s1 := NewFromSlice([]int{1, 2, 3})
+	s.Expect(fmt.Sprintf("%v", s1), "IntSet{1, 2, 3}")
 }

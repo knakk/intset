@@ -2,6 +2,11 @@
 // operations.
 package intset
 
+import (
+	"fmt"
+	"strings"
+)
+
 // IntSet represents an unordered collection of unique integers backed by a map.
 type IntSet map[int]bool
 
@@ -147,4 +152,13 @@ func (set IntSet) Clone() IntSet {
 		s.Add(i)
 	}
 	return s
+}
+
+func (set IntSet) String() string {
+	items := make([]string, 0, len(set))
+
+	for k := range set {
+		items = append(items, fmt.Sprintf("%v", k))
+	}
+	return fmt.Sprintf("IntSet{%s}", strings.Join(items, ", "))
 }
