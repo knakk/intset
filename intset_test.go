@@ -17,6 +17,7 @@ func TestIntSet(t *testing.T) {
 	s.Expect(set.Size(), 1)
 	set.Add(2)
 	set.Add(3)
+	s.Expect(set.Contains(1, 2, 3), true)
 	s.Expect(set.Add(3), false)
 	s.Expect(set.Size(), 3)
 	set.Remove(2)

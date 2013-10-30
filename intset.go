@@ -41,10 +41,14 @@ func (set IntSet) Add(i int) bool {
 	return !found
 }
 
-// Contains checks if a given int is part of the set.
-func (set IntSet) Contains(i int) bool {
-	_, found := set[i]
-	return found
+// Contains checks if a list ints are part of the set.
+func (set IntSet) Contains(integers ...int) bool {
+	for _, i := range integers {
+		if _, found := set[i]; !found {
+			return false
+		}
+	}
+	return true
 }
 
 // Remove deletes an integer from the set.
