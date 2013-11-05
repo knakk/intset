@@ -1,6 +1,7 @@
 package intset
 
 import (
+	"math/rand"
 	"testing"
 
 	"github.com/knakk/specs"
@@ -137,4 +138,115 @@ func TestSliceSetClone(t *testing.T) {
 	setB := setA.Clone()
 
 	specs.Expect(setB.Equal(setA), true)
+}
+
+// Benchmarks
+
+func BenchmarkSliceSetAdd(b *testing.B) {
+	set := NewSliceSet(1000)
+	for i := 0; i < b.N; i++ {
+		set.Add(rand.Intn(1000))
+	}
+}
+
+func BenchmarkSliceSetRemove(b *testing.B) {
+	set := NewSliceSet(1000)
+	for i := 0; i < 500; i++ {
+		set.Add(rand.Intn(1000))
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		set.Remove(rand.Intn(1000))
+	}
+}
+
+func BenchmarkSliceSetContains(b *testing.B) {
+	set := NewSliceSet(1000)
+	for i := 0; i < 500; i++ {
+		set.Add(rand.Intn(1000))
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		set.Contains(rand.Intn(1000))
+	}
+}
+
+func BenchmarkSliceSetClear(b *testing.B) {
+	set := NewSliceSet(1000)
+	for i := 0; i < 500; i++ {
+		set.Add(rand.Intn(1000))
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		set.Clear()
+	}
+}
+
+func BenchmarkSliceSetEqual(b *testing.B) {
+	setA := NewSliceSet(100).Add(1, 3, 7, 88)
+	setB := NewSliceSet(100).Add(88, 3, 7, 1)
+	setC := NewSliceSet(100).Add(1, 3, 7, 89)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		setA.Equal(setB)
+		setA.Equal(setC)
+	}
+}
+
+func BenchmarkSliceSetBigEqual(b *testing.B) {
+	setA := NewSliceSet(10000).Add(1, 3, 700, 8888)
+	setB := NewSliceSet(10000).Add(8888, 3, 700, 1)
+	setC := NewSliceSet(10000).Add(1, 3, 700, 8889)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		setA.Equal(setB)
+		setA.Equal(setC)
+	}
+}
+
+func BenchmarkSliceSetBigSubsetOf(b *testing.B) {
+	setA := NewSliceSet(10000).Add(3, 700, 8888)
+	setB := NewSliceSet(10000).Add(8888, 3, 700, 1)
+	setC := NewSliceSet(10000).Add(1, 3, 700, 8889)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		setA.SubsetOf(setB)
+		setA.SubsetOf(setC)
+	}
+}
+
+func BenchmarkSliceSetUnion(b *testing.B) {
+	setA := NewSliceSet(100).Add(1, 3, 7, 88)
+	setB := NewSliceSet(100).Add(33, 44, 7, 1)
+	setC := NewSliceSet(100).Add(13, 3, 7, 89)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.Union(setB).Union(setC)
+	}
+}
+
+func BenchmarkSliceSetIntersection(b *testing.B) {
+	setA := NewSliceSet(100).Add(1, 3, 7, 88)
+	setB := NewSliceSet(100).Add(33, 44, 7, 1)
+	setC := NewSliceSet(100).Add(13, 3, 7, 89)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.Intersection(setB).Intersection(setC)
+	}
+}
+
+func BenchmarkSliceSetSymetricDifference(b *testing.B) {
+	setA := NewSliceSet(100).Add(1, 3, 7, 88)
+	setB := NewSliceSet(100).Add(33, 44, 7, 1)
+	setC := NewSliceSet(100).Add(13, 3, 27, 89)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.SymetricDifference(setB).SymetricDifference(setC)
+	}
 }

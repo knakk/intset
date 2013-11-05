@@ -184,10 +184,3 @@ func (set *SliceSet) String() string {
 	}
 	return fmt.Sprintf("Set{%s}", strings.Join(items, ", "))
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
