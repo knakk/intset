@@ -231,6 +231,20 @@ func BenchmarkBriggsSetUnion(b *testing.B) {
 	}
 }
 
+func BenchmarkBriggsSetBigUnion(b *testing.B) {
+	setA := NewBriggsSet(10000)
+	setB := NewBriggsSet(10000)
+	for i := 0; i < 5000; i++ {
+		setA.Add(rand.Intn(10000))
+		setB.Add(rand.Intn(10000))
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.Union(setB)
+	}
+}
+
 func BenchmarkBriggsSetIntersection(b *testing.B) {
 	setA := NewBriggsSet(100).Add(1, 3, 7, 88)
 	setB := NewBriggsSet(100).Add(33, 44, 7, 1)
@@ -247,6 +261,21 @@ func BenchmarkBriggsSetSymetricDifference(b *testing.B) {
 	setB := NewBriggsSet(100).Add(33, 44, 7, 1)
 	setC := NewBriggsSet(100).Add(13, 3, 27, 89)
 
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.SymetricDifference(setB).SymetricDifference(setC)
+	}
+}
+
+func BenchmarkBriggsSetBigSymetricDifference(b *testing.B) {
+	setA := NewBriggsSet(10000)
+	setB := NewBriggsSet(10000)
+	setC := NewBriggsSet(10000)
+	for i := 0; i < 5000; i++ {
+		setA.Add(rand.Intn(10000))
+		setB.Add(rand.Intn(10000))
+		setC.Add(rand.Intn(10000))
+	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = setA.SymetricDifference(setB).SymetricDifference(setC)

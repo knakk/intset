@@ -229,6 +229,20 @@ func BenchmarkSliceSetUnion(b *testing.B) {
 	}
 }
 
+func BenchmarkSliceSetBigUnion(b *testing.B) {
+	setA := NewSliceSet(10000)
+	setB := NewSliceSet(10000)
+	for i := 0; i < 5000; i++ {
+		setA.Add(rand.Intn(10000))
+		setB.Add(rand.Intn(10000))
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.Union(setB)
+	}
+}
+
 func BenchmarkSliceSetIntersection(b *testing.B) {
 	setA := NewSliceSet(100).Add(1, 3, 7, 88)
 	setB := NewSliceSet(100).Add(33, 44, 7, 1)
@@ -245,6 +259,21 @@ func BenchmarkSliceSetSymetricDifference(b *testing.B) {
 	setB := NewSliceSet(100).Add(33, 44, 7, 1)
 	setC := NewSliceSet(100).Add(13, 3, 27, 89)
 
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = setA.SymetricDifference(setB).SymetricDifference(setC)
+	}
+}
+
+func BenchmarkSliceSetBigSymetricDifference(b *testing.B) {
+	setA := NewSliceSet(10000)
+	setB := NewSliceSet(10000)
+	setC := NewSliceSet(10000)
+	for i := 0; i < 5000; i++ {
+		setA.Add(rand.Intn(10000))
+		setB.Add(rand.Intn(10000))
+		setC.Add(rand.Intn(10000))
+	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		_ = setA.SymetricDifference(setB).SymetricDifference(setC)
