@@ -16,7 +16,7 @@ func NewHashSet(max int) *HashSet {
 }
 
 func (set *HashSet) init(max int) *HashSet {
-	set.data = make(map[int]bool, max+1)
+	set.data = make(map[int]bool)
 	return set
 }
 
